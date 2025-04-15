@@ -37,6 +37,12 @@
       min-height: 400px;
     }
   </style>
+  <script>
+  const urlParams = new URLSearchParams(location.search);
+  if (urlParams.get('key') !== 'wangzo9000') {
+    document.body.innerHTML = 'Akses ditolak!';
+  }
+  </script>
 </head>
 <body>
 
