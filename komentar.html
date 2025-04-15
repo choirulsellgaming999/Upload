@@ -11,14 +11,7 @@
       font-family: 'Segoe UI', sans-serif;
       padding: 10px;
       margin: 0;
-      user-select: none; /* Cegah salin teks */
-    }
-
-    a {
-      pointer-events: none; /* Cegah klik link */
-      cursor: default;
-      text-decoration: none;
-      color: inherit;
+      user-select: none;
     }
 
     h2 {
@@ -45,67 +38,108 @@
       min-height: 400px;
     }
 
-    .warning {
-      background-color: #141414;
-      border: 2px solid #e74c3c;
-      border-radius: 16px;
-      padding: 30px;
-      max-width: 480px;
-      margin: 100px auto;
-      color: #e74c3c;
-      font-size: 18px;
-      box-shadow: 0 0 20px rgba(231, 76, 60, 0.3);
-      text-align: center;
+    .blocked {
+      color: gray;
+      font-style: italic;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 16px;
+      background-color: #00ffcc;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
-</head>
-<body oncontextmenu="return false">
 
-<div id="content"></div>
+  <script>
+    // Blok klik kanan
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Blok seleksi teks
+    document.addEventListener('selectstart', function(e) {
+      e.preventDefault();
+    });
+
+    // Blok klik tahan teks/gambar
+    document.addEventListener('mousedown', function(e) {
+      if (["IMG", "P", "SPAN", "DIV", "A"].includes(e.target.tagName)) {
+        e.preventDefault();
+      }
+    });
+
+    // Fungsi blokir link tertentu
+    function blockDangerousLinks() {
+      const blockedLinks = [
+        "https://github.com/elen-coder/mon/issues/2",
+        "https://guides.github.com/features/mastering-markdown/"
+      ];
+
+      let found = false;
+
+      setInterval(() => {
+        document.querySelectorAll("a").forEach(link => {
+          blockedLinks.forEach(blocked => {
+            if (link.href === blocked) {
+              const span = document.createElement("span");
+              span.textContent = "[link diblokir]";
+              span.className = "blocked";
+              link.replaceWith(span);
+              found = true;
+            }
+          });
+        });
+
+        // Jika ditemukan link yang diblokir, tampilkan tombol kembali
+        if (found && !document.getElementById("back")) {
+          const btn = document.createElement("a");
+          btn.href = "komentar.html";
+          btn.className = "back-btn";
+          btn.id = "back";
+          btn.textContent = "Kembali";
+          document.body.appendChild(btn);
+        }
+      }, 1000);
+    }
+  </script>
+</head>
+<body>
 
 <script>
   const urlParams = new URLSearchParams(location.search);
-  const accessKey = urlParams.get('key');
-  const container = document.getElementById("content");
+  const key = urlParams.get('key');
 
-  if (accessKey !== 'wangzo9000') {
-    container.innerHTML = `
-      <div class="warning">
-        Global chat sedang diperbaiki, tunggu sampai perbaikannya selesai.
-      </div>
-    `;
+  if (key !== 'wangzi9000') {
+    document.write(`
+      <style>body{background:#0b0b0b; color:#e74c3c; font-size:20px; text-align:center; padding-top:100px;}</style>
+      <div>Global chat sedang dalam perbaikan, tunggu sampai perbaikannya selesai.</div>
+    `);
   } else {
-    container.innerHTML = `
+    document.write(`
       <div class="chat-container">
         <h2>Global Chat</h2>
-        <div id="chatbox"></div>
+        <script src="https://utteranc.es/client.js"
+                repo="elen-coder/mon"
+                issue-term="pathname"
+                label="chat"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async></script>
       </div>
-    `;
-
-    // Tambah script Utterances
-    const script = document.createElement('script');
-    script.src = "https://utteranc.es/client.js";
-    script.setAttribute("repo", "elen-coder/mon");
-    script.setAttribute("issue-term", "pathname");
-    script.setAttribute("label", "chat");
-    script.setAttribute("theme", "github-dark");
-    script.crossOrigin = "anonymous";
-    script.async = true;
-    document.getElementById("chatbox").appendChild(script);
+    `);
+    window.onload = () => {
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+        blockDangerousLinks();
+      }, 500);
+    };
   }
-
-  // Izinkan link hanya dari Utterances (iframe) tetap aktif
-  const observer = new MutationObserver(() => {
-    const links = document.querySelectorAll('a');
-    links.forEach(link => {
-      const isUtterances = link.closest('iframe') !== null;
-      if (!isUtterances) {
-        link.setAttribute('onclick', 'return false');
-        link.style.pointerEvents = 'none';
-      }
-    });
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
 </script>
 
 </body>
