@@ -38,31 +38,6 @@ function blockDangerousLinks() {
   }, 1000);
 }
 
-window.onload = () => {
-  const params = new URLSearchParams(location.search);
-  const key = params.get("key");
-  const wrapper = document.getElementById("chat-wrapper");
-
-  if (key !== "wangzi9000") {
-    wrapper.innerHTML = `
-      <div style="color:#e74c3c; font-size:20px; text-align:center; padding-top:100px;">
-        Global chat sedang dalam perbaikan, tunggu sampai perbaikannya selesai.
-      </div>
-    `;
-  } else {
-    wrapper.innerHTML = `
-      <div class="chat-container">
-        <h2>Global Chat</h2>
-        <script src="https://utteranc.es/client.js"
-                repo="elen-coder/mon"
-                issue-term="pathname"
-                label="chat"
-                theme="github-dark"
-                crossorigin="anonymous"
-                async></script>
-      </div>
-    `;
-
     setTimeout(() => {
       window.scrollTo(0, document.body.scrollHeight);
       blockDangerousLinks();
