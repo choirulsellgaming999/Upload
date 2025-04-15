@@ -53,30 +53,33 @@
 </head>
 <body>
 
+<div id="content"></div>
+
 <script>
   const urlParams = new URLSearchParams(location.search);
   const accessKey = urlParams.get('key');
 
   if (accessKey !== 'wangzo9000') {
-    document.body.innerHTML = `
+    document.getElementById("content").innerHTML = `
       <div class="warning">
         Global chat sedang diperbaiki, tunggu sampai perbaikannya selesai.
       </div>
     `;
+  } else {
+    document.getElementById("content").innerHTML = `
+      <div class="chat-container">
+        <h2>Global Chat</h2>
+        <script src="https://utteranc.es/client.js"
+                repo="elen-coder/mon"
+                issue-term="pathname"
+                label="chat"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async><\/script>
+      </div>
+    `;
   }
 </script>
-
-<div class="chat-container">
-  <h2>Global Chat</h2>
-  <script src="https://utteranc.es/client.js"
-          repo="elen-coder/mon"
-          issue-term="pathname"
-          label="chat"
-          theme="github-dark"
-          crossorigin="anonymous"
-          async>
-  </script>
-</div>
 
 </body>
 </html>
