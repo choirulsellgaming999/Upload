@@ -7,6 +7,32 @@
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
   <script src="lock.js"></script>
+  <script>
+    window.onload = () => {
+  const params = new URLSearchParams(location.search);
+  const key = params.get("key");
+  const wrapper = document.getElementById("chat-wrapper");
+
+  if (key !== "wangzo9000") {
+    wrapper.innerHTML = `
+      <div style="color:#e74c3c; font-size:20px; text-align:center; padding-top:100px;">
+        Global chat sedang dalam perbaikan, tunggu sampai perbaikannya selesai.
+      </div>
+    `;
+  } else {
+    wrapper.innerHTML = `
+      <div class="chat-container">
+        <h2>Global Chat</h2>
+        <script src="https://utteranc.es/client.js"
+                repo="elen-coder/mon"
+                issue-term="pathname"
+                label="chat"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async></script>
+      </div>
+    `;
+  </script>
 </head>
 <body>
   <div id="chat-wrapper"></div>
