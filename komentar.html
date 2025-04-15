@@ -11,6 +11,14 @@
       font-family: 'Segoe UI', sans-serif;
       padding: 10px;
       margin: 0;
+      user-select: none; /* Cegah salin teks */
+    }
+
+    a {
+      pointer-events: none; /* Cegah klik link */
+      cursor: default;
+      text-decoration: none;
+      color: inherit;
     }
 
     h2 {
@@ -51,14 +59,13 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false">
 
 <div id="content"></div>
 
 <script>
   const urlParams = new URLSearchParams(location.search);
   const accessKey = urlParams.get('key');
-
   const container = document.getElementById("content");
 
   if (accessKey !== 'wangzo9000') {
@@ -75,7 +82,7 @@
       </div>
     `;
 
-    // Masukkan script Utterances HANYA jika akses valid
+    // Tambah script Utterances
     const script = document.createElement('script');
     script.src = "https://utteranc.es/client.js";
     script.setAttribute("repo", "elen-coder/mon");
@@ -84,9 +91,21 @@
     script.setAttribute("theme", "github-dark");
     script.crossOrigin = "anonymous";
     script.async = true;
-
     document.getElementById("chatbox").appendChild(script);
   }
+
+  // Izinkan link hanya dari Utterances (iframe) tetap aktif
+  const observer = new MutationObserver(() => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+      const isUtterances = link.closest('iframe') !== null;
+      if (!isUtterances) {
+        link.setAttribute('onclick', 'return false');
+        link.style.pointerEvents = 'none';
+      }
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 </script>
 
 </body>
