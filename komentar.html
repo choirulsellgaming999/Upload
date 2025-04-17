@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Global Chat</title>
   <style>
     body {
@@ -11,11 +11,11 @@
       font-family: 'Segoe UI', sans-serif;
       padding: 10px;
       margin: 0;
-      user-select: none; /* Cegah salin teks */
+      user-select: none;
     }
 
     a {
-      pointer-events: none; /* Cegah klik link */
+      pointer-events: none;
       cursor: default;
       text-decoration: none;
       color: inherit;
@@ -63,9 +63,6 @@
 
 <div id="content"></div>
 
-<script src="lock.js"></script>
-<script src="script.js"></script>
-
 <script>
   const urlParams = new URLSearchParams(location.search);
   const accessKey = urlParams.get('key');
@@ -85,7 +82,7 @@
       </div>
     `;
 
-    // Tambahkan script Giscus
+    // Tambahkan Giscus
     const script = document.createElement('script');
     script.src = "https://giscus.app/client.js";
     script.setAttribute("data-repo", "elen-coder/xreSwa34uif");
@@ -94,17 +91,17 @@
     script.setAttribute("data-category-id", "DIC_kwDOOa_szc4CpL3n");
     script.setAttribute("data-mapping", "pathname");
     script.setAttribute("data-strict", "0");
-    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-reactions-enabled", "0");
     script.setAttribute("data-emit-metadata", "0");
     script.setAttribute("data-input-position", "bottom");
-    script.setAttribute("data-theme", "preferred_color_scheme");
+    script.setAttribute("data-theme-url", "https://elen-coder.github.io/xuliwa/giscus-theme.css");
     script.setAttribute("data-lang", "id");
     script.crossOrigin = "anonymous";
     script.async = true;
     document.getElementById("chatbox").appendChild(script);
   }
 
-  // Izinkan link hanya dari Giscus (iframe)
+  // Cegah link selain dari iframe aktif
   const observer = new MutationObserver(() => {
     const links = document.querySelectorAll('a');
     links.forEach(link => {
